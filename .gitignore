@@ -1,0 +1,20 @@
+# Dependencies (dev-only: Puppeteer for screenshot tests)
+node_modules/
+
+# Screenshot test scripts & their output
+shot*.js
+shot_*.png
+debug_markers.js
+
+# Working scratch / source captures (not part of the published site)
+my_slices/
+ref_slices/
+Home2First.org Photos/
+www.charitywater.org_*.png
+Chase Field 2026.jpeg
+charitywater-original.html
+
+# OS / editor cruft
+.DS_Store
+**/.DS_Store
+.vscode/

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Phoenix Fields | Home2First Foundation</title>
+<!--
+  Self-contained East Phoenix fields map (Google Maps satellite view).
+  Drop this file anywhere in the site root. It expects two optional assets,
+  both of which degrade gracefully if missing:
+    Branding/h2f.png                                        -> corner watermark
+    photos/11 - Phoenix Fields Map/promise-field-brunson-lee.jpg
+    photos/11 - Phoenix Fields Map/griffith-elementary-field.jpg  -> popup photos
+  IMPORTANT: before going live, restrict the Google Maps API key below to your
+  domain (HTTP referrer restriction) in the Google Cloud console.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;600&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --brand:#E6001A; --ink:#21303F; --cream:#E9F1F8; --navy:#24578E; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Mulish',sans-serif; color:var(--ink); background:#fff; }
+  .fields-section { padding:64px 16px 80px; }
+  .fields-eyebrow { text-align:center; font-size:12px; font-weight:800; letter-spacing:.18em; margin:0; }
+  .fields-title { font-family:'Bitter',serif; font-weight:500; font-size:clamp(28px, 5vw, 40px); line-height:1.3; text-align:center; margin:14px 0 0; }
+  .fields-sub { font-size:16px; line-height:1.6; text-align:center; max-width:720px; margin:18px auto 0; }
+  .fields-frame { max-width:1200px; margin:44px auto 0; border-radius:8px; overflow:hidden; box-shadow:0 25px 50px -12px rgba(0,0,0,.25); position:relative; }
+  .fields-canvas { position:relative; height:clamp(420px, 65vh, 620px); background:var(--cream); }
+  #fields-map { position:absolute; inset:0; }
+  .map-chip { position:absolute; left:16px; top:16px; z-index:10; background:#fff; border-radius:6px; padding:0 16px; height:40px; display:flex; align-items:center; font-size:12px; font-weight:800; letter-spacing:.1em; box-shadow:0 2px 8px rgba(15,40,70,.25); }
+  .map-chip .dot { color:var(--brand); margin:0 8px; }
+  .map-jumps { position:absolute; right:16px; top:16px; z-index:10; display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+  .map-jumps button { border:0; cursor:pointer; background:#fff; border-radius:6px; padding:0 16px; height:40px; font-family:'Mulish',sans-serif; font-size:12px; font-weight:800; letter-spacing:.1em; color:var(--ink); box-shadow:0 2px 8px rgba(15,40,70,.25); }
+  .map-jumps button:hover { background:var(--cream); }
+  .map-jumps button.dark { background:var(--ink); color:#fff; }
+  .map-watermark { position:absolute; left:16px; bottom:40px; z-index:10; background:rgba(255,255,255,.9); border-radius:6px; padding:6px 12px; box-shadow:0 2px 8px rgba(15,40,70,.25); pointer-events:none; }
+  .map-watermark img { height:34px; width:auto; display:block; }
+  @media (max-width: 640px) {
+    .fields-section { padding:40px 10px 56px; }
+    .map-chip { font-size:11px; padding:0 12px; height:36px; }
+    .map-jumps button { font-size:11px; padding:0 12px; height:36px; }
+    .map-jumps { right:10px; top:62px; }
+    .map-chip { left:10px; top:10px; }
+  }
+  /* popups: navy header, white text */
+  .h2f-iw { width:300px; max-width:80vw; font-family:'Mulish',sans-serif; }
+  .h2f-iw-head { background:var(--navy); color:#fff; padding:14px 18px 13px; }
+  .h2f-iw-head h3 { font-family:'Bitter',serif; font-size:18px; font-weight:600; line-height:1.25; margin:0; color:#fff; }
+  .h2f-iw-head p { margin:5px 0 0; font-size:10px; font-weight:800; letter-spacing:.1em; color:#BCD0E6; text-transform:uppercase; }
+  .h2f-iw-photo { width:100%; height:150px; object-fit:cover; display:block; }
+  .h2f-iw-body { padding:14px 18px 16px; background:#fff; }
+  .h2f-iw-body p { margin:0; font-size:13px; line-height:1.55; color:var(--ink); }
+  .h2f-iw-body a { display:inline-block; margin-top:10px; font-size:11px; font-weight:800; letter-spacing:.08em; color:var(--brand); text-decoration:none; border-bottom:2px solid var(--brand); padding-bottom:2px; }
+  .gm-style .gm-style-iw-c { padding:0 !important; border-radius:10px; box-shadow:0 12px 30px rgba(16,34,53,.35); }
+  .gm-style .gm-style-iw-d { overflow:hidden !important; padding:0 !important; }
+  .gm-style .gm-style-iw-c button.gm-ui-hover-effect > span { background-color:#fff !important; }
+</style>
+</head>
+<body>
+
+<section class="fields-section">
+  <p class="fields-eyebrow">WHERE WE PLAY</p>
+  <h2 class="fields-title">Our home fields in East Phoenix</h2>
+  <p class="fields-sub">The Balsz Home Base Baseball League plays free, fully equipped baseball in the heart of the 85008. Click a pin to meet each field.</p>
+  <div class="fields-frame">
+    <div class="fields-canvas">
+      <div id="fields-map"></div>
+      <div class="map-chip">EAST PHOENIX, AZ <span class="dot">·</span> ZIP 85008</div>
+      <div class="map-jumps">
+        <button data-field-jump="brunson">PROMISE FIELD</button>
+        <button data-field-jump="griffith">GRIFFITH</button>
+        <button data-field-jump="overview" class="dark">BOTH FIELDS</button>
+      </div>
+      <div class="map-watermark">
+        <img src="Branding/h2f.png" alt="Home2First" onerror="this.parentElement.style.display='none'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const H2F_FIELDS = [
+  {
+    id: 'brunson',
+    title: 'Promise Field — Brunson-Lee',
+    sub: 'Home of the Balsz Home Base Baseball League',
+    lat: 33.46305, lng: -111.98035,
+    address: '1350 N 48th St, Phoenix, AZ 85008',
+    photo: 'photos/11 - Phoenix Fields Map/promise-field-brunson-lee.jpg',
+    text: 'Home plate for Home2First in East Phoenix. Since Opening Day in March 2025, Promise Field has hosted Balsz Home Base Baseball League games, skills clinics, and Arizona Diamondbacks visits — with every player suited up in D-backs uniforms and gloves through the Nike Jr. RBI partnership.'
+  },
+  {
+    id: 'griffith',
+    title: 'Griffith Elementary Field',
+    sub: 'BHBL Game & Clinic Site',
+    lat: 33.46919, lng: -111.98474,
+    address: '4505 E Palm Ln, Phoenix, AZ 85008',
+    photo: 'photos/11 - Phoenix Fields Map/griffith-elementary-field.jpg',
+    text: 'A league and clinic site in the Balsz Elementary School District, just up the street from Promise Field. Home2First brings free, fully equipped baseball to Griffith students right on their own campus — no fees, no travel, just ball.'
+  }
+];
+
+const H2F_PIN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="44" height="58" viewBox="0 0 44 58"><path d="M22 1.5C10.7 1.5 1.5 10.7 1.5 22c0 14.8 17.1 31.3 19.6 33.6a1.3 1.3 0 0 0 1.8 0C25.4 53.3 42.5 36.8 42.5 22 42.5 10.7 33.3 1.5 22 1.5z" fill="#E6001A" stroke="#ffffff" stroke-width="2.5"/><circle cx="22" cy="21.5" r="10.5" fill="#ffffff"/><path d="M14.6 14.1c2.4 1.9 3.9 4.5 3.9 7.4s-1.5 5.5-3.9 7.4" fill="none" stroke="#E6001A" stroke-width="1.7" stroke-linecap="round"/><path d="M29.4 14.1c-2.4 1.9-3.9 4.5-3.9 7.4s1.5 5.5 3.9 7.4" fill="none" stroke="#E6001A" stroke-width="1.7" stroke-linecap="round"/></svg>`;
+
+function h2fFieldPopup(f) {
+  const fallback = 'https://placehold.co/600x300/E9F1F8/24578E?text=Photo+coming+soon';
+  const dir = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(f.address);
+  return `<div class="h2f-iw">
+    <div class="h2f-iw-head"><h3>${f.title}</h3><p>${f.sub}</p></div>
+    <img class="h2f-iw-photo" src="${f.photo}" alt="${f.title}" onerror="this.onerror=null;this.src='${fallback}'">
+    <div class="h2f-iw-body"><p>${f.text}</p><a href="${dir}" target="_blank" rel="noopener">GET DIRECTIONS →</a></div>
+  </div>`;
+}
+
+window.initFieldsMap = function() {
+  const el = document.getElementById('fields-map');
+  if (!el || !window.google) return;
+  const fieldsMap = new google.maps.Map(el, {
+    mapTypeId: 'hybrid',
+    tilt: 0,
+    disableDefaultUI: true,
+    zoomControl: true,
+    fullscreenControl: true,
+    gestureHandling: 'cooperative'
+  });
+  const icon = {
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(H2F_PIN_SVG),
+    scaledSize: new google.maps.Size(44, 58),
+    anchor: new google.maps.Point(22, 56)
+  };
+  const iw = new google.maps.InfoWindow({ maxWidth: 320 });
+  const bounds = new google.maps.LatLngBounds();
+  const markers = {};
+  H2F_FIELDS.forEach((f) => {
+    bounds.extend({ lat: f.lat, lng: f.lng });
+    const m = new google.maps.Marker({ position: { lat: f.lat, lng: f.lng }, map: fieldsMap, icon, title: f.title });
+    m.addListener('click', () => { iw.setContent(h2fFieldPopup(f)); iw.open({ map: fieldsMap, anchor: m }); });
+    markers[f.id] = m;
+  });
+  const fitAll = () => fieldsMap.fitBounds(bounds, { top: 100, bottom: 70, left: 80, right: 80 });
+  fitAll();
+  document.querySelectorAll('[data-field-jump]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-field-jump');
+      if (id === 'overview') { iw.close(); fitAll(); return; }
+      const f = H2F_FIELDS.find((x) => x.id === id);
+      fieldsMap.panTo({ lat: f.lat, lng: f.lng });
+      fieldsMap.setZoom(18);
+      google.maps.event.trigger(markers[id], 'click');
+    });
+  });
+};
+</script>
+<!-- Google Maps JS API — restrict this key to your domain (HTTP referrer) in the Google Cloud console before going live -->
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtlRbaRR6JPqbUjoy6t7iItiDjNdeC0bw&callback=initFieldsMap&v=weekly"></script>
+</body>
+</html>
