@@ -1,11 +1,15 @@
-One photo per featured drive on the Equipment Drives page.
+Photos for the EQUIPMENT DRIVES page (equipment-drives.html). One photo per drive.
+Drop a .jpg with the exact filename below; it appears automatically (landscape ~4:3 looks best).
 
-Drop your photos in this folder using EXACTLY these filenames (.jpg).
-As soon as a correctly-named file is here, it automatically appears on the website.
-
-  horizon-2026.jpg          ->  Horizon High School 2nd annual drive (Jan 2026, 330+ pieces).
-  saguaro-2025.jpg          ->  Saguaro High School 4th annual drive (Nov 2025, 400+ pieces).
-  cold-beers-2025.jpg       ->  Cold Beers & Cheeseburgers 4th annual drive (Aug 2025).
-  valley-christian-2023.jpg ->  Valley Christian record drive (Dec 2023, 1,100+ pieces).
-  chaparral-2023.jpg        ->  Chaparral High School 2nd annual drive (Nov 2023, 440 pieces).
-  chaparral-2022.jpg        ->  Chaparral High School first drive (Nov 2022, 400+ pieces).
+  perry-2026.jpg               ->  FEBRUARY 15, 2026 — Perry High School (Inaugural Drive)
+  horizon-2026.jpg             ->  JANUARY 24, 2026 — Horizon High School (2nd Annual Drive)
+  chaparral-2025.jpg           ->  DECEMBER 13, 2025 — Chaparral High School (4th Annual Drive)
+  saguaro-2025.jpg             ->  NOVEMBER 16, 2025 — Saguaro High School (4th Annual Drive)
+  saguaro-2024-nov.jpg         ->  NOVEMBER 2, 2024 — Saguaro High School (3rd Annual Drive)
+  horizon-2024.jpg             ->  OCTOBER 19, 2024 — Horizon High School (Inaugural Drive)
+  chaparral-2024.jpg           ->  SEPTEMBER 2024 — Chaparral High School (3rd Annual Drive)
+  saguaro-2024-jan.jpg         ->  JANUARY 20, 2024 — Saguaro High School (2nd Annual Drive)
+  valley-christian-2023.jpg    ->  DECEMBER 13, 2023 — Valley Christian High School (Inaugural Drive)
+  chaparral-2023.jpg           ->  NOVEMBER 2023 — Chaparral High School (2nd Annual Drive)
+  saguaro-2022.jpg             ->  NOVEMBER 2022 — Saguaro High School (Inaugural Drive)
+  chaparral-2022.jpg           ->  NOVEMBER 12, 2022 — Chaparral High School (Inaugural Drive)

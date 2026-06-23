@@ -27,8 +27,12 @@ tailwind.config = {
 </script>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-<!-- PayPal/Venmo Donate SDK — replace client-id "sb" (sandbox) with the foundation's live PayPal client ID -->
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture&enable-funding=venmo&disable-funding=paylater"></script>
+<!-- PayPal/Venmo Donate SDK — DISABLED until the foundation's LIVE PayPal client ID is ready.
+     TO GO LIVE: (1) replace YOUR_LIVE_CLIENT_ID below with the live client ID from the PayPal
+     Developer dashboard, (2) uncomment the <script> line, and (3) in the donation-widget JS near
+     the bottom of this file, restore the GIVE ONCE branch to show #paypal-buttons (see note there).
+     While disabled, both MONTHLY and GIVE ONCE route to the live Our Mayberry donation page. -->
+<!-- <script src="https://www.paypal.com/sdk/js?client-id=YOUR_LIVE_CLIENT_ID&currency=USD&intent=capture&enable-funding=venmo&disable-funding=paylater"></script> -->
 <style>
   body { font-family: 'Mulish', sans-serif; color: #21303F; }
   .h2f-pin { width:16px; height:16px; border-radius:9999px; background:#E6001A; border:2px solid #fff; box-shadow:0 2px 8px rgba(15,40,70,.35); }
@@ -54,18 +58,19 @@ tailwind.config = {
   .h2f-hover-card .hc-thumbs img { width:88px; height:60px; object-fit:cover; border-radius:6px; }
   .h2f-hover-card .hc-link { display:inline-block; font-size:11px; font-weight:800; letter-spacing:.06em; margin-top:10px;
     border-bottom:2px solid #E6001A; padding-bottom:2px; }
-  /* Google Maps fields-map popups (navy header, white text) */
+  /* East Phoenix fields-map popups (navy header, white text) */
   .h2f-iw { width:300px; font-family:'Mulish',sans-serif; }
   .h2f-iw-head { background:#24578E; color:#fff; padding:14px 18px 13px; }
   .h2f-iw-head h3 { font-family:'Bitter',serif; font-size:18px; font-weight:600; line-height:1.25; margin:0; color:#fff; }
   .h2f-iw-head p { margin:5px 0 0; font-size:10px; font-weight:800; letter-spacing:.1em; color:#BCD0E6; text-transform:uppercase; }
-  .h2f-iw-photo { width:100%; height:150px; object-fit:cover; display:block; }
+  .h2f-iw-photo { width:100%; height:120px; object-fit:cover; display:block; }
   .h2f-iw-body { padding:14px 18px 16px; background:#fff; }
   .h2f-iw-body p { margin:0; font-size:13px; line-height:1.55; color:#21303F; }
-  .h2f-iw-body a { display:inline-block; margin-top:10px; font-size:11px; font-weight:800; letter-spacing:.08em; color:#E6001A; text-decoration:none; border-bottom:2px solid #E6001A; padding-bottom:2px; }
-  .gm-style .gm-style-iw-c { padding:0 !important; border-radius:10px; box-shadow:0 12px 30px rgba(16,34,53,.35); }
-  .gm-style .gm-style-iw-d { overflow:hidden !important; padding:0 !important; }
-  .gm-style .gm-style-iw-c button.gm-ui-hover-effect > span { background-color:#fff !important; }
+  .h2f-iw-body a { display:block; width:fit-content; margin-top:10px; font-size:11px; font-weight:800; letter-spacing:.08em; color:#E6001A; text-decoration:none; border-bottom:2px solid #E6001A; padding-bottom:2px; }
+  .h2f-iw-body a.hc-secondary { color:#44566B; border-bottom-color:#9FB1C2; }
+  .h2f-field-popup .maplibregl-popup-content { padding:0; border-radius:10px; overflow:hidden; box-shadow:0 12px 30px rgba(16,34,53,.35); }
+  .h2f-field-popup .maplibregl-popup-close-button { width:26px; height:26px; font-size:18px; line-height:1; color:#fff; right:3px; top:3px; }
+  .h2f-field-popup .maplibregl-popup-tip { border-top-color:#fff; border-bottom-color:#fff; }
 </style>
 </head>
 <body class="bg-white">
@@ -84,7 +89,7 @@ tailwind.config = {
             <div class="bg-white rounded-md shadow-xl border border-gray-100 py-2 w-[260px]">
               <a href="our-mission.html" class="block px-5 py-2.5 text-[12px] font-bold tracking-[0.08em] text-ink hover:bg-cream">OUR MISSION</a>
               <a href="the-home-team.html" class="block px-5 py-2.5 text-[12px] font-bold tracking-[0.08em] text-ink hover:bg-cream">THE HOME TEAM</a>
-              <a href="club-baseball-partners.html" class="block px-5 py-2.5 text-[12px] font-bold tracking-[0.08em] text-ink hover:bg-cream">OUR CLUB BASEBALL PARTNERS</a>
+              <a href="partners.html" class="block px-5 py-2.5 text-[12px] font-bold tracking-[0.08em] text-ink hover:bg-cream">SPONSORS &amp; PARTNERS</a>
             </div>
           </div>
         </div>
@@ -94,6 +99,7 @@ tailwind.config = {
             <div class="bg-white rounded-md shadow-xl border border-gray-100 py-2 w-[280px]">
               <a href="njrl.html" class="block px-5 py-2.5 text-[12px] font-bold tracking-[0.08em] text-ink hover:bg-cream">NIKE JR. RBI LEAGUE (NJRL)</a>
               <a href="scholarship-program.html" class="block px-5 py-2.5 text-[12px] font-bold tracking-[0.08em] text-ink hover:bg-cream">CLUB BASEBALL SCHOLARSHIP</a>
+              <a href="ambassador-program.html" class="block px-5 py-2.5 text-[12px] font-bold tracking-[0.08em] text-ink hover:bg-cream">AMBASSADOR PROGRAM</a>
             </div>
           </div>
         </div>
@@ -103,7 +109,7 @@ tailwind.config = {
     <div class="flex items-center">
       <a href="mailto:home2firstfoundation@gmail.com" class="text-[12px] font-bold tracking-[0.12em]">CONTACT</a>
       <span class="w-px h-[30px] bg-gray-300 ml-[30px]"></span>
-      <a href="https://ourmayberry.com/donate-to/236" class="bg-brand rounded-md h-[40px] px-[16px] ml-[28px] flex items-center gap-1.5 text-[12px] font-bold tracking-[0.12em] text-white">DONATE NOW <span class="text-[13px]">⚾</span></a>
+      <a href="https://ourmayberry.com/donate-to/236" target="_blank" rel="noopener noreferrer" class="bg-brand rounded-md h-[40px] px-[16px] ml-[28px] flex items-center gap-1.5 text-[12px] font-bold tracking-[0.12em] text-white">DONATE NOW <span class="text-[13px]">⚾</span></a>
     </div>
   </div>
 </header>
@@ -123,19 +129,19 @@ tailwind.config = {
       <div class="px-[13px] pt-[22px] pb-[28px]">
         <p class="text-[11px] font-extrabold tracking-[0.04em]">CHOOSE/ENTER AN AMOUNT TO GIVE</p>
         <div class="grid grid-cols-3 gap-[10px] mt-[20px]">
-          <button data-amt="10" class="h-[48px] rounded-md bg-[#EDF4FA] border border-[#D5E4F0] text-[#9FB0C2]"><span class="text-[17px] font-bold">$10</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
-          <button data-amt="20" class="h-[48px] rounded-md bg-[#EDF4FA] border border-[#D5E4F0] text-[#9FB0C2]"><span class="text-[17px] font-bold">$20</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
-          <button data-amt="40" class="h-[48px] rounded-md bg-brand text-white"><span class="text-[17px] font-bold">$40</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
+          <button data-amt="25" class="h-[48px] rounded-md bg-[#EDF4FA] border border-[#D5E4F0] text-[#9FB0C2]"><span class="text-[17px] font-bold">$25</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
+          <button data-amt="100" class="h-[48px] rounded-md bg-brand text-white"><span class="text-[17px] font-bold">$100</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
+          <button data-amt="500" class="h-[48px] rounded-md bg-[#EDF4FA] border border-[#D5E4F0] text-[#9FB0C2]"><span class="text-[17px] font-bold">$500</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
         </div>
         <div class="grid grid-cols-3 gap-[10px] mt-[10px]">
-          <button data-amt="100" class="h-[48px] rounded-md bg-[#EDF4FA] border border-[#D5E4F0] text-[#9FB0C2]"><span class="text-[17px] font-bold">$100</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
+          <button data-amt="1000" class="h-[48px] rounded-md bg-[#EDF4FA] border border-[#D5E4F0] text-[#9FB0C2]"><span class="text-[17px] font-bold">$1000</span> <span data-suffix class="text-[11px] font-semibold">USD/mo</span></button>
           <button data-amt="other" class="h-[48px] rounded-md bg-[#EDF4FA] border border-[#D5E4F0] col-span-2 text-[16px] font-semibold text-[#9FB0C2]">
             <span data-other-label>Other amount</span>
             <span data-other-input class="hidden items-center justify-center gap-1 text-[17px] font-bold">$ <input type="number" min="1" placeholder="50" class="w-[80px] bg-transparent outline-none text-center placeholder:text-white/60"></span>
           </button>
         </div>
         <p class="flex items-start gap-2 mt-[10px] text-[14px]"><span class="text-brand text-[17px] leading-[1.2]">♥</span><span><b>100% of your donation</b> goes straight to the field to help kids in need.</span></p>
-        <a id="donate-cta" href="https://ourmayberry.com/donate-to/236" class="w-full h-[47px] bg-brand rounded-md mt-[6px] text-[15px] font-extrabold tracking-[0.1em] text-white flex items-center justify-center">DONATE $40 MONTHLY</a>
+        <a id="donate-cta" href="https://ourmayberry.com/donate-to/236" class="w-full h-[47px] bg-brand rounded-md mt-[6px] text-[15px] font-extrabold tracking-[0.1em] text-white flex items-center justify-center">DONATE $100 MONTHLY</a>
         <div id="paypal-buttons" class="mt-[10px] hidden"></div>
       </div>
     </div>
@@ -223,8 +229,8 @@ tailwind.config = {
   <p class="text-[16px] text-center mt-[30px] leading-[1.75]">Show your support by making a donation to help make the dreams of aspiring ballplayers a reality.<br><b>Now more than ever, it is vitally important to get kids outside and on the ball field!</b></p>
 </section>
 
-<!-- ============ OUR PHOENIX FIELDS (Google satellite map) ============ -->
-<section class="bg-white pt-[110px] pb-[130px]">
+<!-- ============ OUR PHOENIX FIELDS (OpenStreetMap via MapLibre) ============ -->
+<section id="home-fields" class="bg-white pt-[110px] pb-[130px]">
   <p class="text-center text-[12px] font-extrabold tracking-[0.18em]">WHERE WE PLAY</p>
   <h2 class="font-serif text-[40px] leading-[1.3] text-center mt-[14px]">Our home fields in East Phoenix</h2>
   <p class="text-[16px] leading-[1.6] text-center max-w-[720px] mx-auto mt-[18px]">The Balsz Home Base Baseball League plays free, fully equipped baseball in the heart of the 85008. Click a pin to meet each field.</p>
@@ -245,46 +251,6 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============ NEWSLETTER ============ -->
-<section class="bg-[#F5F9FC] pt-[105px] pb-[100px]">
-  <div class="w-[1200px] mx-auto bg-white rounded-md shadow-sm pt-[35px] pb-[50px] pl-[110px] pr-[150px] flex">
-    <div class="flex-1 pt-[172px]">
-      <h3 class="text-[20px] font-bold">Add Impact To Your Inbox</h3>
-      <p class="text-[16px] mt-3">Get our emails to stay in the know.</p>
-    </div>
-    <div class="w-[400px]">
-      <div class="flex gap-4">
-        <div class="flex-1">
-          <label class="block text-[11px] font-bold tracking-[0.08em] text-gray-600 mb-1.5">FIRST NAME</label>
-          <input type="text" class="w-full h-[48px] border border-[#B9CDE0] rounded-md px-3">
-        </div>
-        <div class="flex-1">
-          <label class="block text-[11px] font-bold tracking-[0.08em] text-gray-600 mb-1.5">LAST NAME</label>
-          <input type="text" class="w-full h-[48px] border border-[#B9CDE0] rounded-md px-3">
-        </div>
-      </div>
-      <div class="mt-4">
-        <label class="block text-[11px] font-bold tracking-[0.08em] text-gray-600 mb-1.5">EMAIL</label>
-        <input type="email" class="w-full h-[48px] border border-[#B9CDE0] rounded-md px-3">
-      </div>
-      <div class="mt-4">
-        <label class="block text-[11px] font-bold tracking-[0.08em] text-gray-600 mb-1.5">BIRTHDAY (OPTIONAL)</label>
-        <div class="flex">
-          <div class="relative flex-1"><select id="bd-mm" class="w-full h-[48px] border border-[#B9CDE0] rounded-l-md px-3 text-gray-400 appearance-none bg-white"><option value="">MM</option></select><span class="absolute right-3 top-[20px] text-gray-400 text-[10px] pointer-events-none">▼</span></div>
-          <div class="relative flex-1"><select id="bd-dd" class="w-full h-[48px] border-y border-[#B9CDE0] px-3 text-gray-400 appearance-none bg-white"><option value="">DD</option></select><span class="absolute right-3 top-[20px] text-gray-400 text-[10px] pointer-events-none">▼</span></div>
-          <div class="relative flex-1"><select id="bd-yyyy" class="w-full h-[48px] border border-[#B9CDE0] rounded-r-md px-3 text-gray-400 appearance-none bg-white"><option value="">YYYY</option></select><span class="absolute right-3 top-[20px] text-gray-400 text-[10px] pointer-events-none">▼</span></div>
-        </div>
-      </div>
-      <div class="flex items-start gap-3 mt-5">
-        <span class="w-[24px] h-[24px] border-2 border-[#B9CDE0] rounded-sm shrink-0"></span>
-        <p class="text-[11px] font-bold tracking-[0.08em] text-[#7F9BB8] leading-[1.5]">SET A REMINDER TO PLEDGE MY BIRTHDAY AND HELP CHANGE LIVES</p>
-      </div>
-      <button class="w-full h-[50px] bg-brand rounded-md mt-4 text-[14px] font-extrabold tracking-[0.1em] text-white">SUBSCRIBE</button>
-      <p class="text-[11px] text-gray-700 mt-3 leading-[1.5] max-w-[340px]">By clicking “Subscribe”, you are submitting your information to the Home2First Foundation.</p>
-    </div>
-  </div>
-</section>
-
 <!-- ============ FOOTER ============ -->
 <footer class="bg-white pt-[64px] pb-[58px]">
   <div class="w-[980px] mx-auto">
@@ -295,8 +261,7 @@ tailwind.config = {
           <li><a href="our-mission.html">Our Mission</a></li>
           <li><a href="the-home-team.html">Landon &amp; Ryan</a></li>
           <li><a href="the-home-team.html">The Home Team</a></li>
-          <li><a href="about.html#sponsors">Our Sponsors &amp; Partners</a></li>
-          <li><a href="club-baseball-partners.html">Club Baseball Partners</a></li>
+          <li><a href="partners.html">Our Sponsors &amp; Partners</a></li>
         </ul>
       </div>
       <div>
@@ -306,16 +271,15 @@ tailwind.config = {
           <li><a href="njrl.html">Nike Jr. RBI League (NJRL)</a></li>
           <li><a href="scholarship-program.html">Scholarship Program</a></li>
           <li><a href="equipment-drives.html">Past Equipment Drives</a></li>
-          <li><a href="njrl.html#player-development">Player Development</a></li>
         </ul>
       </div>
       <div>
         <p class="text-[14px] font-bold mb-2">Get Involved</p>
         <ul class="space-y-[10px] text-[14px] leading-[20px] text-[#555]">
-          <li><a href="#">How to Support</a></li>
-          <li><a href="https://ourmayberry.com/donate-to/236">Make a Donation</a></li>
-          <li><a href="#">Donate Equipment</a></li>
-          <li><a href="#">Ambassador Program</a></li>
+          <li><a href="https://ourmayberry.com/donate-to/236" target="_blank" rel="noopener noreferrer">How to Support</a></li>
+          <li><a href="https://ourmayberry.com/donate-to/236" target="_blank" rel="noopener noreferrer">Make a Donation</a></li>
+          <li><a href="equipment-drives.html">Donate Equipment</a></li>
+          <li><a href="ambassador-program.html">Ambassador Program</a></li>
           <li><a href="humanitarian-trips.html">Humanitarian Trips</a></li>
         </ul>
       </div>
@@ -323,9 +287,9 @@ tailwind.config = {
         <p class="text-[14px] font-bold mb-2">Connect</p>
         <ul class="space-y-[10px] text-[14px] leading-[20px] text-[#555]">
           <li><a href="mailto:home2firstfoundation@gmail.com">Contact Us</a></li>
-          <li><a href="mailto:home2firstfoundation@gmail.com">Home2FirstFoundation@gmail.com</a></li>
-          <li><a href="tel:+14155151285">(415) 515-1285</a></li>
-          <li><a href="#">Open Free Photo Portal</a></li>
+          <li>Home2FirstFoundation@gmail.com</li>
+          <li>(415) 515-1285</li>
+          <li><a href="https://home2first.smugmug.com/" target="_blank" rel="noopener noreferrer">Open Free Photo Portal</a></li>
         </ul>
       </div>
     </div>
@@ -340,11 +304,8 @@ tailwind.config = {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#5a6a7a"><path d="M23 5.1c-.8.4-1.7.6-2.6.8a4.5 4.5 0 0 0 2-2.5c-.9.5-1.9.9-2.9 1.1a4.5 4.5 0 0 0-7.7 4.1A12.8 12.8 0 0 1 2.5 4a4.5 4.5 0 0 0 1.4 6 4.4 4.4 0 0 1-2-.5v.1a4.5 4.5 0 0 0 3.6 4.4 4.6 4.6 0 0 1-2 .1 4.5 4.5 0 0 0 4.2 3.1A9 9 0 0 1 1 19a12.7 12.7 0 0 0 6.9 2c8.3 0 12.8-6.9 12.8-12.8v-.6c.9-.6 1.6-1.4 2.3-2.4z"/></svg>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#5a6a7a"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v15H.2V8zm7.6 0h4.4v2h.1c.6-1.2 2.1-2.4 4.4-2.4 4.7 0 5.6 3.1 5.6 7.1V23h-4.7v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4V23H7.8V8z"/></svg>
       </div>
-      <div class="flex items-center gap-3 mt-4 text-[13px] font-bold">
-        <a href="#" class="underline">privacy policy</a><span class="text-gray-400">·</span><a href="#" class="underline">responsible disclosure process</a>
-      </div>
       <p class="text-[14px] text-[#555] mt-5">Home2First Foundation is a 501(c)(3) non-profit corporation.</p>
-      <p class="text-[14px] font-bold underline mt-4"><a href="#">100% of your donation goes straight to the field to help kids in need.</a></p>
+      <p class="text-[14px] font-bold mt-4">100% of your donation goes straight to the field to help kids in need.</p>
       <p class="text-[13px] text-[#777] mt-4 leading-[1.45]">© 2026 | Home2First, Inc., 10645 N. Tatum Blvd., Suite C200-519, Phoenix, AZ 85028 | home2firstfoundation@gmail.com | (415) 515-1285.<br>Home2First Foundation is a 501(c)(3) non-profit corporation and all contributions are tax-deductible to the extent as allowed by law.<br>Proudly partnered with the Arizona Diamondbacks, Nike Jr. RBI, and the Balsz School District.</p>
     </div>
   </div>
@@ -352,7 +313,7 @@ tailwind.config = {
 
 <script>
 // ---- Donation widget ----
-const donateState = { mode: 'monthly', amount: '40' };
+const donateState = { mode: 'monthly', amount: '100' };
 function fmtAmount() {
   if (donateState.amount === 'other') {
     const v = document.querySelector('[data-other-input] input').value;
@@ -387,15 +348,16 @@ function renderWidget() {
   });
   const cta = document.getElementById('donate-cta');
   const pp = document.getElementById('paypal-buttons');
-  if (donateState.mode === 'monthly') {
-    // Recurring gifts run through Our Mayberry; one-time gifts use PayPal/Venmo below
-    cta.classList.remove('hidden'); cta.classList.add('flex');
-    pp.classList.add('hidden');
-    cta.textContent = `DONATE ${fmtAmount()} MONTHLY`;
-  } else {
-    cta.classList.add('hidden'); cta.classList.remove('flex');
-    pp.classList.remove('hidden');
-  }
+  // INTERIM (PayPal not yet live): both MONTHLY and GIVE ONCE route to the live Our Mayberry page.
+  // TO RESTORE NATIVE PAYPAL once the SDK is enabled, swap the block below back to:
+  //   if (donateState.mode === 'monthly') { cta.classList.remove('hidden'); cta.classList.add('flex');
+  //     pp.classList.add('hidden'); cta.textContent = `DONATE ${fmtAmount()} MONTHLY`; }
+  //   else { cta.classList.add('hidden'); cta.classList.remove('flex'); pp.classList.remove('hidden'); }
+  cta.classList.remove('hidden'); cta.classList.add('flex');
+  pp.classList.add('hidden');
+  cta.textContent = donateState.mode === 'monthly'
+    ? `DONATE ${fmtAmount()} MONTHLY`
+    : `DONATE ${fmtAmount()}`;
 }
 function getDonationValue() {
   if (donateState.amount === 'other') {
@@ -422,61 +384,29 @@ document.querySelectorAll('[data-amt]').forEach(b => b.addEventListener('click',
 document.querySelector('[data-other-input] input').addEventListener('input', renderWidget);
 renderWidget();
 
-// ---- Birthday date pickers ----
-const mmSel = document.getElementById('bd-mm'), ddSel = document.getElementById('bd-dd'), yySel = document.getElementById('bd-yyyy');
-const months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
-months.forEach(m => mmSel.add(new Option(m, m)));
-for (let y = 2026; y >= 1920; y--) yySel.add(new Option(y, y));
-function daysIn(m, y) { return m ? new Date(y || 2024, parseInt(m), 0).getDate() : 31; }
-function fillDays() {
-  const prev = ddSel.value;
-  while (ddSel.options.length > 1) ddSel.remove(1);
-  const n = daysIn(mmSel.value, yySel.value);
-  for (let d = 1; d <= n; d++) { const v = String(d).padStart(2, '0'); ddSel.add(new Option(v, v)); }
-  if (prev && parseInt(prev) <= n) ddSel.value = prev;
-}
-fillDays();
-[mmSel, yySel].forEach(el => el.addEventListener('change', fillDays));
-[mmSel, ddSel, yySel].forEach(el => el.addEventListener('change', () => {
-  el.classList.toggle('text-gray-400', !el.value);
-  el.classList.toggle('text-ink', !!el.value);
-}));
-
 // ---- Impact arc map (vanilla port of components/ui/mapcn-map-arc.tsx) ----
 // Same engine (maplibre-gl) and the same quadratic-Bezier arc math as the React component.
 const hub = {
-  name: 'Balsz District — Phoenix, AZ', lng: -111.9850, lat: 33.4570, href: 'gallery-balsz-district.html',
-  blurb: 'Home of the Balsz Home2First Baseball League at Promise Field — the district\'s first baseball in nearly a decade.',
+  name: 'Promise Field — East Phoenix, AZ', lng: -111.9850, lat: 33.4570, href: 'gallery-promise-field.html',
+  blurb: 'Home of the NJRL / Balsz Home2First League at Promise Field — East Phoenix\'s first organized youth baseball in nearly a decade.',
   stats: '2 BHBL SEASONS · 4 SKILLS CLINICS · D-BACKS PARTNERSHIP',
   cardBelow: true,
-  thumbs: ['assets/chase_field_2026.jpg', 'assets/hero_right.jpg', 'assets/photo_card.jpg'],
+  thumbs: ['photos/Promise Field/photo-1.jpg', 'photos/Promise Field/photo-2.jpg', 'photos/Promise Field/photo-3.jpg'],
 };
 // NOTE: coordinates for the smaller DR communities are approximate — provide exact GPS points to fine-tune.
 const destinations = [
-  { name: 'La Vigía', lng: -69.5050, lat: 18.4640, href: 'gallery-la-vigia.html', zoomLabel: true,
-    blurb: 'A community reached on our annual humanitarian trips, with gear delivered directly to young players.',
-    stats: 'ANNUAL GEAR DELIVERIES SINCE 2021',
-    thumbs: ['photos/10 - Gallery - La Vigia/photo-1.jpg', 'photos/10 - Gallery - La Vigia/photo-2.jpg', 'photos/10 - Gallery - La Vigia/photo-3.jpg'] },
   { name: 'Juan Dolio', lng: -69.4243, lat: 18.4273, href: 'gallery-juan-dolio.html', zoomLabel: true, labelBelow: true,
     blurb: 'A coastal community on our equipment pipeline, where donated gear finds its way onto local diamonds.',
     stats: 'ANNUAL GEAR DELIVERIES SINCE 2021',
-    thumbs: ['photos/10 - Gallery - Juan Dolio/photo-1.jpg', 'photos/10 - Gallery - Juan Dolio/photo-2.jpg', 'photos/10 - Gallery - Juan Dolio/photo-3.jpg'] },
+    thumbs: ['photos/Gallery - Juan Dolio/photo-5.jpg', 'photos/Gallery - Juan Dolio/photo-1-2022.jpg', 'photos/Gallery - Juan Dolio/photo-2-2022.jpg'] },
   { name: 'San Pedro de Macorís', lng: -69.3086, lat: 18.4539, href: 'gallery-san-pedro.html',
     blurb: 'The cradle of shortstops and the heart of our DR mission — gear reaches inner-city kids and academies across the region.',
     stats: '5 ANNUAL TRIPS · 800 LBS DELIVERED IN 2024',
-    thumbs: ['assets/group.jpg', 'photos/10 - Gallery - San Pedro de Macoris/photo-2.jpg', 'photos/10 - Gallery - San Pedro de Macoris/photo-3.jpg'] },
+    thumbs: ['assets/group.jpg', 'photos/Gallery - San Pedro de Macoris/2021-photo1.jpg', 'photos/Gallery - San Pedro de Macoris/2021-photo2.jpg'] },
   { name: 'Batey Olivari', lng: -69.3550, lat: 18.5230, href: 'gallery-batey-olivari.html', zoomLabel: true,
     blurb: 'A sugar-mill community around San Pedro de Macorís where our donated gear goes the furthest.',
     stats: 'ANNUAL GEAR DELIVERIES',
-    thumbs: ['photos/10 - Gallery - Batey Olivari/photo-1.jpg', 'photos/10 - Gallery - Batey Olivari/photo-2.jpg', 'photos/10 - Gallery - Batey Olivari/photo-3.jpg'] },
-  { name: 'Batey Dominicana', lng: -69.2600, lat: 18.5050, href: 'gallery-batey-dominicana.html', zoomLabel: true,
-    blurb: 'A batey community where Home2First gear helps kids take the field properly equipped.',
-    stats: 'ANNUAL GEAR DELIVERIES',
-    thumbs: ['photos/10 - Gallery - Batey Dominicana/photo-1.jpg', 'photos/10 - Gallery - Batey Dominicana/photo-2.jpg', 'photos/10 - Gallery - Batey Dominicana/photo-3.jpg'] },
-  { name: 'Batey San Felipe', lng: -69.2200, lat: 18.4480, href: 'gallery-batey-san-felipe.html', zoomLabel: true, labelBelow: true,
-    blurb: 'A batey community served by our annual equipment deliveries to the San Pedro region.',
-    stats: 'ANNUAL GEAR DELIVERIES',
-    thumbs: ['photos/10 - Gallery - Batey San Felipe/photo-1.jpg', 'photos/10 - Gallery - Batey San Felipe/photo-2.jpg', 'photos/10 - Gallery - Batey San Felipe/photo-3.jpg'] },
+    thumbs: ['photos/Gallery - Batey Olivari/photo1-2021.jpg', 'photos/Gallery - Batey Olivari/photo2-2021.jpg', 'photos/Gallery - Batey Olivari/photo3-2021.jpg'] },
 ];
 
 // buildArcCoordinates — ported verbatim from components/ui/mapcn-map-arc.tsx
@@ -588,24 +518,26 @@ arcMap.once('load', () => {
   destinations.forEach((d) => h2fArcMarker(d, false));
 });
 
-// ---- Phoenix fields satellite map (Google Maps) ----
+// ---- Phoenix fields map (MapLibre GL + OpenStreetMap / CARTO basemap) ----
 const H2F_FIELDS = [
   {
     id: 'brunson',
     title: 'Promise Field — Brunson-Lee',
-    sub: 'Home of the Balsz Home Base Baseball League',
+    sub: 'Home of the NJRL / Balsz Home2First League',
     lat: 33.46305, lng: -111.98035,
     address: '1350 N 48th St, Phoenix, AZ 85008',
-    photo: 'photos/11 - Phoenix Fields Map/promise-field-brunson-lee.jpg',
+    href: 'gallery-promise-field.html',
+    photo: 'photos/Promise Field/photo-1.jpg',
     text: 'Home plate for Home2First in East Phoenix. Since Opening Day in March 2025, Promise Field has hosted Balsz Home Base Baseball League games, skills clinics, and Arizona Diamondbacks visits — with every player suited up in D-backs uniforms and gloves through the Nike Jr. RBI partnership.'
   },
   {
     id: 'griffith',
     title: 'Griffith Elementary Field',
-    sub: 'BHBL Game & Clinic Site',
+    sub: 'NJRL Practice & Clinic Site',
     lat: 33.46919, lng: -111.98474,
     address: '4505 E Palm Ln, Phoenix, AZ 85008',
-    photo: 'photos/11 - Phoenix Fields Map/griffith-elementary-field.jpg',
+    href: 'gallery-griffith.html',
+    photo: 'photos/Griffith/photo-1.jpg',
     text: 'A league and clinic site in the Balsz Elementary School District, just up the street from Promise Field. Home2First brings free, fully equipped baseball to Griffith students right on their own campus — no fees, no travel, just ball.'
   }
 ];
@@ -618,50 +550,76 @@ function h2fFieldPopup(f) {
   return `<div class="h2f-iw">
     <div class="h2f-iw-head"><h3>${f.title}</h3><p>${f.sub}</p></div>
     <img class="h2f-iw-photo" src="${f.photo}" alt="${f.title}" onerror="this.onerror=null;this.src='${fallback}'">
-    <div class="h2f-iw-body"><p>${f.text}</p><a href="${dir}" target="_blank" rel="noopener">GET DIRECTIONS →</a></div>
+    <div class="h2f-iw-body"><p>${f.text}</p><a href="${f.href}">VIEW BIO &amp; PHOTOS →</a><a href="${dir}" target="_blank" rel="noopener" class="hc-secondary">GET DIRECTIONS →</a></div>
   </div>`;
 }
 
-window.initFieldsMap = function() {
+(function initFieldsMap() {
   const el = document.getElementById('fields-map');
-  if (!el || !window.google) return;
-  const fieldsMap = new google.maps.Map(el, {
-    mapTypeId: 'hybrid',
-    tilt: 0,
-    disableDefaultUI: true,
-    zoomControl: true,
-    fullscreenControl: true,
-    gestureHandling: 'cooperative'
+  if (!el || typeof maplibregl === 'undefined') return;
+  const fieldsMap = new maplibregl.Map({
+    container: 'fields-map',
+    style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+    center: [-111.98255, 33.46612],
+    zoom: 14.4,
+    attributionControl: { compact: true },
   });
-  const icon = {
-    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(H2F_PIN_SVG),
-    scaledSize: new google.maps.Size(44, 58),
-    anchor: new google.maps.Point(22, 56)
-  };
-  const iw = new google.maps.InfoWindow({ maxWidth: 320 });
-  const bounds = new google.maps.LatLngBounds();
-  const markers = {};
+  fieldsMap.scrollZoom.disable();
+  fieldsMap.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+
+  const popup = new maplibregl.Popup({ offset: 34, anchor: 'bottom', maxWidth: '320px', className: 'h2f-field-popup', focusAfterOpen: false });
+  const fields = {};
+  const bounds = new maplibregl.LngLatBounds();
+  const padOpts = { padding: { top: 110, bottom: 90, left: 90, right: 90 }, maxZoom: 16 };
+
+  // Keep the whole popup inside the map frame: after it opens, pan the map if any edge is clipped.
+  function fitPopupIntoView() {
+    requestAnimationFrame(() => {
+      const popEl = el.querySelector('.maplibregl-popup');
+      if (!popEl) return;
+      const c = el.getBoundingClientRect();
+      const r = popEl.getBoundingClientRect();
+      const pad = 14;
+      let dx = 0, dy = 0;
+      if (r.left < c.left + pad) dx = r.left - (c.left + pad);
+      else if (r.right > c.right - pad) dx = r.right - (c.right - pad);
+      if (r.top < c.top + pad) dy = r.top - (c.top + pad);
+      else if (r.bottom > c.bottom - pad) dy = r.bottom - (c.bottom - pad);
+      if (dx || dy) fieldsMap.panBy([dx, dy], { duration: 260 });
+    });
+  }
+  function openField(f) {
+    popup.setLngLat([f.lng, f.lat]).setHTML(h2fFieldPopup(f)).addTo(fieldsMap);
+    fitPopupIntoView();
+  }
+
   H2F_FIELDS.forEach((f) => {
-    bounds.extend({ lat: f.lat, lng: f.lng });
-    const m = new google.maps.Marker({ position: { lat: f.lat, lng: f.lng }, map: fieldsMap, icon, title: f.title });
-    m.addListener('click', () => { iw.setContent(h2fFieldPopup(f)); iw.open({ map: fieldsMap, anchor: m }); });
-    markers[f.id] = m;
+    fields[f.id] = f;
+    bounds.extend([f.lng, f.lat]);
+    const pin = document.createElement('div');
+    pin.className = 'h2f-field-marker';
+    pin.style.cssText = 'width:44px;height:58px;cursor:pointer;';
+    pin.innerHTML = H2F_PIN_SVG;
+    pin.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openField(f);
+    });
+    new maplibregl.Marker({ element: pin, anchor: 'bottom' }).setLngLat([f.lng, f.lat]).addTo(fieldsMap);
   });
-  const fitAll = () => fieldsMap.fitBounds(bounds, { top: 100, bottom: 70, left: 80, right: 80 });
-  fitAll();
+
+  fieldsMap.on('load', () => fieldsMap.fitBounds(bounds, { ...padOpts, duration: 0 }));
+
   document.querySelectorAll('[data-field-jump]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-field-jump');
-      if (id === 'overview') { iw.close(); fitAll(); return; }
-      const f = H2F_FIELDS.find((x) => x.id === id);
-      fieldsMap.panTo({ lat: f.lat, lng: f.lng });
-      fieldsMap.setZoom(18);
-      google.maps.event.trigger(markers[id], 'click');
+      if (id === 'overview') { popup.remove(); fieldsMap.fitBounds(bounds, { ...padOpts, duration: 900 }); return; }
+      const f = fields[id];
+      if (!f) return;
+      fieldsMap.flyTo({ center: [f.lng, f.lat], zoom: 17, duration: 900 });
+      fieldsMap.once('moveend', () => openField(f));
     });
   });
-};
+})();
 </script>
-<!-- Google Maps JS API — restrict this key to your domain (HTTP referrer) in the Google Cloud console before going live -->
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtlRbaRR6JPqbUjoy6t7iItiDjNdeC0bw&callback=initFieldsMap&v=weekly"></script>
 </body>
 </html>

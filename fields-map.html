@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Phoenix Fields | Home2First Foundation</title>
 <!--
-  Self-contained East Phoenix fields map (Google Maps satellite view).
-  Drop this file anywhere in the site root. It expects two optional assets,
-  both of which degrade gracefully if missing:
-    Branding/h2f.png                                        -> corner watermark
-    photos/11 - Phoenix Fields Map/promise-field-brunson-lee.jpg
-    photos/11 - Phoenix Fields Map/griffith-elementary-field.jpg  -> popup photos
-  IMPORTANT: before going live, restrict the Google Maps API key below to your
-  domain (HTTP referrer restriction) in the Google Cloud console.
+  Self-contained East Phoenix fields map (OpenStreetMap via MapLibre GL — no API key needed).
+  Drop this file anywhere in the site root. It expects these optional assets,
+  all of which degrade gracefully if missing:
+    Branding/h2f.png             -> corner watermark
+    photos/Promise Field/photo-1.jpg  -> Promise Field popup photo
+    photos/Griffith/photo-1.jpg       -> Griffith popup photo
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;600&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <style>
   :root { --brand:#E6001A; --ink:#21303F; --cream:#E9F1F8; --navy:#24578E; }
   * { box-sizing: border-box; }
@@ -47,13 +47,14 @@
   .h2f-iw-head { background:var(--navy); color:#fff; padding:14px 18px 13px; }
   .h2f-iw-head h3 { font-family:'Bitter',serif; font-size:18px; font-weight:600; line-height:1.25; margin:0; color:#fff; }
   .h2f-iw-head p { margin:5px 0 0; font-size:10px; font-weight:800; letter-spacing:.1em; color:#BCD0E6; text-transform:uppercase; }
-  .h2f-iw-photo { width:100%; height:150px; object-fit:cover; display:block; }
+  .h2f-iw-photo { width:100%; height:120px; object-fit:cover; display:block; }
   .h2f-iw-body { padding:14px 18px 16px; background:#fff; }
   .h2f-iw-body p { margin:0; font-size:13px; line-height:1.55; color:var(--ink); }
-  .h2f-iw-body a { display:inline-block; margin-top:10px; font-size:11px; font-weight:800; letter-spacing:.08em; color:var(--brand); text-decoration:none; border-bottom:2px solid var(--brand); padding-bottom:2px; }
-  .gm-style .gm-style-iw-c { padding:0 !important; border-radius:10px; box-shadow:0 12px 30px rgba(16,34,53,.35); }
-  .gm-style .gm-style-iw-d { overflow:hidden !important; padding:0 !important; }
-  .gm-style .gm-style-iw-c button.gm-ui-hover-effect > span { background-color:#fff !important; }
+  .h2f-iw-body a { display:block; width:fit-content; margin-top:10px; font-size:11px; font-weight:800; letter-spacing:.08em; color:var(--brand); text-decoration:none; border-bottom:2px solid var(--brand); padding-bottom:2px; }
+  .h2f-iw-body a.hc-secondary { color:#44566B; border-bottom-color:#9FB1C2; }
+  .h2f-field-popup .maplibregl-popup-content { padding:0; border-radius:10px; overflow:hidden; box-shadow:0 12px 30px rgba(16,34,53,.35); }
+  .h2f-field-popup .maplibregl-popup-close-button { width:26px; height:26px; font-size:18px; line-height:1; color:#fff; right:3px; top:3px; }
+  .h2f-field-popup .maplibregl-popup-tip { border-top-color:#fff; border-bottom-color:#fff; }
 </style>
 </head>
 <body>
@@ -83,19 +84,21 @@ const H2F_FIELDS = [
   {
     id: 'brunson',
     title: 'Promise Field — Brunson-Lee',
-    sub: 'Home of the Balsz Home Base Baseball League',
+    sub: 'Home of the NJRL / Balsz Home2First League',
     lat: 33.46305, lng: -111.98035,
     address: '1350 N 48th St, Phoenix, AZ 85008',
-    photo: 'photos/11 - Phoenix Fields Map/promise-field-brunson-lee.jpg',
+    href: 'gallery-promise-field.html',
+    photo: 'photos/Promise Field/photo-1.jpg',
     text: 'Home plate for Home2First in East Phoenix. Since Opening Day in March 2025, Promise Field has hosted Balsz Home Base Baseball League games, skills clinics, and Arizona Diamondbacks visits — with every player suited up in D-backs uniforms and gloves through the Nike Jr. RBI partnership.'
   },
   {
     id: 'griffith',
     title: 'Griffith Elementary Field',
-    sub: 'BHBL Game & Clinic Site',
+    sub: 'NJRL Practice & Clinic Site',
     lat: 33.46919, lng: -111.98474,
     address: '4505 E Palm Ln, Phoenix, AZ 85008',
-    photo: 'photos/11 - Phoenix Fields Map/griffith-elementary-field.jpg',
+    href: 'gallery-griffith.html',
+    photo: 'photos/Griffith/photo-1.jpg',
     text: 'A league and clinic site in the Balsz Elementary School District, just up the street from Promise Field. Home2First brings free, fully equipped baseball to Griffith students right on their own campus — no fees, no travel, just ball.'
   }
 ];
@@ -108,50 +111,76 @@ function h2fFieldPopup(f) {
   return `<div class="h2f-iw">
     <div class="h2f-iw-head"><h3>${f.title}</h3><p>${f.sub}</p></div>
     <img class="h2f-iw-photo" src="${f.photo}" alt="${f.title}" onerror="this.onerror=null;this.src='${fallback}'">
-    <div class="h2f-iw-body"><p>${f.text}</p><a href="${dir}" target="_blank" rel="noopener">GET DIRECTIONS →</a></div>
+    <div class="h2f-iw-body"><p>${f.text}</p><a href="${f.href}">VIEW BIO &amp; PHOTOS →</a><a href="${dir}" target="_blank" rel="noopener" class="hc-secondary">GET DIRECTIONS →</a></div>
   </div>`;
 }
 
-window.initFieldsMap = function() {
+(function initFieldsMap() {
   const el = document.getElementById('fields-map');
-  if (!el || !window.google) return;
-  const fieldsMap = new google.maps.Map(el, {
-    mapTypeId: 'hybrid',
-    tilt: 0,
-    disableDefaultUI: true,
-    zoomControl: true,
-    fullscreenControl: true,
-    gestureHandling: 'cooperative'
+  if (!el || typeof maplibregl === 'undefined') return;
+  const fieldsMap = new maplibregl.Map({
+    container: 'fields-map',
+    style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+    center: [-111.98255, 33.46612],
+    zoom: 14.4,
+    attributionControl: { compact: true },
   });
-  const icon = {
-    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(H2F_PIN_SVG),
-    scaledSize: new google.maps.Size(44, 58),
-    anchor: new google.maps.Point(22, 56)
-  };
-  const iw = new google.maps.InfoWindow({ maxWidth: 320 });
-  const bounds = new google.maps.LatLngBounds();
-  const markers = {};
+  fieldsMap.scrollZoom.disable();
+  fieldsMap.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+
+  const popup = new maplibregl.Popup({ offset: 34, anchor: 'bottom', maxWidth: '320px', className: 'h2f-field-popup', focusAfterOpen: false });
+  const fields = {};
+  const bounds = new maplibregl.LngLatBounds();
+  const padOpts = { padding: { top: 110, bottom: 90, left: 90, right: 90 }, maxZoom: 16 };
+
+  // Keep the whole popup inside the map frame: after it opens, pan the map if any edge is clipped.
+  function fitPopupIntoView() {
+    requestAnimationFrame(() => {
+      const popEl = el.querySelector('.maplibregl-popup');
+      if (!popEl) return;
+      const c = el.getBoundingClientRect();
+      const r = popEl.getBoundingClientRect();
+      const pad = 14;
+      let dx = 0, dy = 0;
+      if (r.left < c.left + pad) dx = r.left - (c.left + pad);
+      else if (r.right > c.right - pad) dx = r.right - (c.right - pad);
+      if (r.top < c.top + pad) dy = r.top - (c.top + pad);
+      else if (r.bottom > c.bottom - pad) dy = r.bottom - (c.bottom - pad);
+      if (dx || dy) fieldsMap.panBy([dx, dy], { duration: 260 });
+    });
+  }
+  function openField(f) {
+    popup.setLngLat([f.lng, f.lat]).setHTML(h2fFieldPopup(f)).addTo(fieldsMap);
+    fitPopupIntoView();
+  }
+
   H2F_FIELDS.forEach((f) => {
-    bounds.extend({ lat: f.lat, lng: f.lng });
-    const m = new google.maps.Marker({ position: { lat: f.lat, lng: f.lng }, map: fieldsMap, icon, title: f.title });
-    m.addListener('click', () => { iw.setContent(h2fFieldPopup(f)); iw.open({ map: fieldsMap, anchor: m }); });
-    markers[f.id] = m;
+    fields[f.id] = f;
+    bounds.extend([f.lng, f.lat]);
+    const pin = document.createElement('div');
+    pin.className = 'h2f-field-marker';
+    pin.style.cssText = 'width:44px;height:58px;cursor:pointer;';
+    pin.innerHTML = H2F_PIN_SVG;
+    pin.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openField(f);
+    });
+    new maplibregl.Marker({ element: pin, anchor: 'bottom' }).setLngLat([f.lng, f.lat]).addTo(fieldsMap);
   });
-  const fitAll = () => fieldsMap.fitBounds(bounds, { top: 100, bottom: 70, left: 80, right: 80 });
-  fitAll();
+
+  fieldsMap.on('load', () => fieldsMap.fitBounds(bounds, { ...padOpts, duration: 0 }));
+
   document.querySelectorAll('[data-field-jump]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-field-jump');
-      if (id === 'overview') { iw.close(); fitAll(); return; }
-      const f = H2F_FIELDS.find((x) => x.id === id);
-      fieldsMap.panTo({ lat: f.lat, lng: f.lng });
-      fieldsMap.setZoom(18);
-      google.maps.event.trigger(markers[id], 'click');
+      if (id === 'overview') { popup.remove(); fieldsMap.fitBounds(bounds, { ...padOpts, duration: 900 }); return; }
+      const f = fields[id];
+      if (!f) return;
+      fieldsMap.flyTo({ center: [f.lng, f.lat], zoom: 17, duration: 900 });
+      fieldsMap.once('moveend', () => openField(f));
     });
   });
-};
+})();
 </script>
-<!-- Google Maps JS API — restrict this key to your domain (HTTP referrer) in the Google Cloud console before going live -->
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtlRbaRR6JPqbUjoy6t7iItiDjNdeC0bw&callback=initFieldsMap&v=weekly"></script>
 </body>
 </html>

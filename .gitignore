@@ -18,3 +18,13 @@ charitywater-original.html
 .DS_Store
 **/.DS_Store
 .vscode/
+.idea/
+
+# Env / secrets
+.env
+.env.*
+
+# Logs & build/cache output
+*.log
+dist/
+.cache/

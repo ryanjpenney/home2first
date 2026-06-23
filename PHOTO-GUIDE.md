@@ -90,16 +90,7 @@ Photos for the 2021 trip story page ('The Seeds of the Mission').
 - `trip-2021-photo-2.jpg` — Supporting photo 2 (landscape ~3:2).
 - `trip-2021-photo-3.jpg` — Supporting photo 3 (landscape ~3:2).
 
-## photos/10 - Gallery - Balsz District
-Photo gallery for Balsz District (gallery-balsz-district.html). Landscape ~3:2 (at least 760px wide) looks best. NOTE: Slots 1-3 are already filled with the Chase Field and league photos on the site.
-- `photo-4.jpg` — Gallery slot 4.
-- `photo-5.jpg` — Gallery slot 5.
-- `photo-6.jpg` — Gallery slot 6.
-- `photo-7.jpg` — Gallery slot 7.
-- `photo-8.jpg` — Gallery slot 8.
-- `photo-9.jpg` — Gallery slot 9.
-
-## photos/10 - Gallery - San Pedro de Macoris
+## photos/Gallery - San Pedro de Macoris
 Photo gallery for San Pedro de Macoris (gallery-san-pedro.html). Landscape ~3:2 (at least 760px wide) looks best. NOTE: Slot 1 is already filled with the DR group photo on the site.
 - `photo-2.jpg` — Gallery slot 2.
 - `photo-3.jpg` — Gallery slot 3.
@@ -110,19 +101,7 @@ Photo gallery for San Pedro de Macoris (gallery-san-pedro.html). Landscape ~3:2 
 - `photo-8.jpg` — Gallery slot 8.
 - `photo-9.jpg` — Gallery slot 9.
 
-## photos/10 - Gallery - La Vigia
-Photo gallery for La Vigia (gallery-la-vigia.html). Landscape ~3:2 (at least 760px wide) looks best.
-- `photo-1.jpg` — Gallery slot 1.
-- `photo-2.jpg` — Gallery slot 2.
-- `photo-3.jpg` — Gallery slot 3.
-- `photo-4.jpg` — Gallery slot 4.
-- `photo-5.jpg` — Gallery slot 5.
-- `photo-6.jpg` — Gallery slot 6.
-- `photo-7.jpg` — Gallery slot 7.
-- `photo-8.jpg` — Gallery slot 8.
-- `photo-9.jpg` — Gallery slot 9.
-
-## photos/10 - Gallery - Juan Dolio
+## photos/Gallery - Juan Dolio
 Photo gallery for Juan Dolio (gallery-juan-dolio.html). Landscape ~3:2 (at least 760px wide) looks best.
 - `photo-1.jpg` — Gallery slot 1.
 - `photo-2.jpg` — Gallery slot 2.
@@ -134,7 +113,7 @@ Photo gallery for Juan Dolio (gallery-juan-dolio.html). Landscape ~3:2 (at least
 - `photo-8.jpg` — Gallery slot 8.
 - `photo-9.jpg` — Gallery slot 9.
 
-## photos/10 - Gallery - Batey Olivari
+## photos/Gallery - Batey Olivari
 Photo gallery for Batey Olivari (gallery-batey-olivari.html). Landscape ~3:2 (at least 760px wide) looks best.
 - `photo-1.jpg` — Gallery slot 1.
 - `photo-2.jpg` — Gallery slot 2.
@@ -146,31 +125,20 @@ Photo gallery for Batey Olivari (gallery-batey-olivari.html). Landscape ~3:2 (at
 - `photo-8.jpg` — Gallery slot 8.
 - `photo-9.jpg` — Gallery slot 9.
 
-## photos/10 - Gallery - Batey Dominicana
-Photo gallery for Batey Dominicana (gallery-batey-dominicana.html). Landscape ~3:2 (at least 760px wide) looks best.
-- `photo-1.jpg` — Gallery slot 1.
-- `photo-2.jpg` — Gallery slot 2.
-- `photo-3.jpg` — Gallery slot 3.
-- `photo-4.jpg` — Gallery slot 4.
-- `photo-5.jpg` — Gallery slot 5.
-- `photo-6.jpg` — Gallery slot 6.
-- `photo-7.jpg` — Gallery slot 7.
-- `photo-8.jpg` — Gallery slot 8.
-- `photo-9.jpg` — Gallery slot 9.
+## East Phoenix fields — NJRL / Balsz Home2First League
+The "Our home fields in East Phoenix" map (homepage + fields-map.html) uses OpenStreetMap.
+Each field pin has a popup whose photo is `photo-1.jpg` from that field's folder, and a
+"VIEW PHOTO GALLERY" link to that field's gallery page. (NJRL = the league umbrella; the
+fields below are where it plays. More fields can be added the same way in the future.)
 
-## photos/10 - Gallery - Batey San Felipe
-Photo gallery for Batey San Felipe (gallery-batey-san-felipe.html). Landscape ~3:2 (at least 760px wide) looks best.
-- `photo-1.jpg` — Gallery slot 1.
-- `photo-2.jpg` — Gallery slot 2.
-- `photo-3.jpg` — Gallery slot 3.
-- `photo-4.jpg` — Gallery slot 4.
-- `photo-5.jpg` — Gallery slot 5.
-- `photo-6.jpg` — Gallery slot 6.
-- `photo-7.jpg` — Gallery slot 7.
-- `photo-8.jpg` — Gallery slot 8.
-- `photo-9.jpg` — Gallery slot 9.
+## photos/Promise Field
+Promise Field (Brunson-Lee) — the league's home field. Feeds the map popup (`photo-1.jpg`)
+and the gallery page gallery-promise-field.html. 22 photos are currently in place.
+- `photo-1.jpg` — Map popup photo + gallery slot 1 (landscape ~2:1 looks best for the popup).
+- `photo-2.jpg`, `photo-3.jpg`, … `photo-22.jpg` — Gallery photos. Add more as photo-N.jpg.
 
-## photos/11 - Phoenix Fields Map
-Popup photos for the East Phoenix satellite map (homepage "Our home fields in East Phoenix" section + fields-map.html). Landscape ~2:1 (at least 600px wide) looks best.
-- `promise-field-brunson-lee.jpg` — Pin popup: Promise Field at Brunson-Lee.
-- `griffith-elementary-field.jpg` — Pin popup: Griffith Elementary Field.
+## photos/Griffith
+Griffith Elementary Field — an NJRL practice & clinic site. Feeds the map popup (`photo-1.jpg`)
+and the gallery page gallery-griffith.html. No photos yet — drop them in to fill the slots.
+- `photo-1.jpg` — Map popup photo + gallery slot 1 (landscape ~2:1 looks best for the popup).
+- `photo-2.jpg`, `photo-3.jpg`, … — Gallery photos. Add more as photo-N.jpg.

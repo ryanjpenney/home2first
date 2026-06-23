@@ -2,7 +2,7 @@
 
 ## Workflow
 
-When the user provides a reference image (screenshot) and optionally some CSS classes or style notes:
+When the user provides reference images (screenshots) and optionally some CSS classes or style notes:
 
 1. **Generate** a single `index.html` file using Tailwind CSS (via CDN). Include all content inline — no external files unless requested.
 2. **Screenshot** the rendered page using Puppeteer (`npx puppeteer screenshot index.html --fullpage` or equivalent). If the page has distinct sections, capture those individually too.
