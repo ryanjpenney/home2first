@@ -60,6 +60,9 @@ img, svg, video, canvas, iframe { max-width: 100%; }   /* media never forces ove
   /* ... but keep the donation-widget amount buttons in their row. */
   .grid-cols-3.gap-\[10px\] { grid-template-columns: repeat(3, 1fr) !important; }
 
+  /* Side-by-side photo + text split rows stack vertically on mobile. */
+  .stack-on-mobile { flex-direction: column !important; gap: 28px !important; }
+
   /* Collapse the big desktop left-margins (nav gaps, hero offset, etc.). */
   [class*="ml-["] { margin-left: 0 !important; }
 
