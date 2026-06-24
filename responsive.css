@@ -1,0 +1,137 @@
+/* =====================================================================
+   Home2First Foundation — responsive layer
+   ---------------------------------------------------------------------
+   WHY THIS FILE EXISTS:
+   The site was hand-built with hardcoded pixel widths (w-[1200px],
+   w-[1230px] nav, w-[980px] footer, ...), absolute-positioned hero
+   offsets (ml-[393px]) and fixed heights (h-[1000px]) with NO responsive
+   breakpoints. The viewport meta tag is present and correct, so phones
+   rendered the full ~1230px desktop layout — i.e. a "shrunken desktop."
+
+   This stylesheet adds a mobile-first responsive layer on top of the
+   existing markup. It is loaded AFTER the Tailwind CDN in every page, so
+   its !important overrides reliably win regardless of cascade order.
+   Breakpoints: <=1024px (tablet), <=768px (phone/tablet), <=480px (small
+   phones), matching the requested standard breakpoints.
+   ===================================================================== */
+
+/* ---------- Global guards (all viewports) ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }   /* never allow horizontal scroll/zoom-out */
+img, svg, video, canvas, iframe { max-width: 100%; }   /* media never forces overflow */
+
+/* =====================================================================
+   <= 1024px — tablets: let the wide centered page wrappers go fluid
+   ===================================================================== */
+@media (max-width: 1024px) {
+  .mx-auto { max-width: 100% !important; }     /* every w-[1200px]/980px/... mx-auto wrapper */
+
+  /* fluidize the wide fixed-width content blocks */
+  .w-\[1250px\], .w-\[1230px\], .w-\[1200px\], .w-\[1120px\], .w-\[1100px\],
+  .w-\[1080px\], .w-\[1040px\], .w-\[1000px\], .w-\[980px\],  .w-\[935px\],
+  .w-\[900px\],  .w-\[860px\],  .w-\[820px\],  .w-\[780px\],  .w-\[760px\],
+  .w-\[720px\] { width: 100% !important; max-width: 100% !important; }
+}
+
+/* =====================================================================
+   <= 768px — phones & small tablets: stack, shrink, scale
+   ===================================================================== */
+@media (max-width: 768px) {
+
+  /* Inset content from the screen edges. Section backgrounds stay
+     full-bleed because padding is inside the (colored) box. Hero is
+     excluded so its background image / gradient stay edge-to-edge. */
+  body > header,
+  body > section:not(.hero),
+  body > footer { padding-left: 20px !important; padding-right: 20px !important; }
+
+  /* Fluidize the remaining medium fixed-width blocks (cards, banners,
+     the donation widget, overlay cards, etc.). */
+  .w-\[640px\], .w-\[600px\], .w-\[560px\], .w-\[480px\], .w-\[460px\],
+  .w-\[440px\], .w-\[430px\], .w-\[400px\], .w-\[388px\], .w-\[360px\],
+  .w-\[340px\], .w-\[320px\], .w-\[300px\] { width: 100% !important; max-width: 100% !important; }
+
+  .max-w-\[1000px\], .max-w-\[935px\], .max-w-\[820px\], .max-w-\[780px\],
+  .max-w-\[760px\], .max-w-\[720px\], .max-w-\[640px\], .max-w-\[430px\],
+  .max-w-\[340px\] { max-width: 100% !important; }
+
+  /* Stack every multi-column grid into a single column ... */
+  [class*="grid-cols-"] { grid-template-columns: 1fr !important; }
+  /* ... but keep the donation-widget amount buttons in their row. */
+  .grid-cols-3.gap-\[10px\] { grid-template-columns: repeat(3, 1fr) !important; }
+
+  /* Collapse the big desktop left-margins (nav gaps, hero offset, etc.). */
+  [class*="ml-["] { margin-left: 0 !important; }
+
+  /* Tame oversized fixed heights. Map containers keep a (smaller) fixed
+     height because their map fills an absolute inset-0 child — auto would
+     collapse them to zero. Hero / mission card are handled by hooks below. */
+  .h-\[626px\], .h-\[560px\] { height: 420px !important; }
+
+  /* Scale down the large display headings so they fit a phone. */
+  .text-\[60px\] { font-size: 34px !important; line-height: 1.15 !important; }
+  .text-\[48px\] { font-size: 30px !important; line-height: 1.2  !important; }
+  .text-\[46px\] { font-size: 29px !important; line-height: 1.2  !important; }
+  .text-\[44px\] { font-size: 28px !important; line-height: 1.2  !important; }
+  .text-\[42px\] { font-size: 27px !important; line-height: 1.2  !important; }
+  .text-\[40px\] { font-size: 26px !important; line-height: 1.25 !important; }
+  .text-\[36px\] { font-size: 24px !important; line-height: 1.25 !important; }
+  .text-\[34px\] { font-size: 23px !important; line-height: 1.3  !important; }
+  .text-\[32px\] { font-size: 22px !important; line-height: 1.3  !important; }
+  .text-\[30px\] { font-size: 21px !important; line-height: 1.3  !important; }
+
+  /* ---------- Shared NAV (present on every page) ---------- */
+  header { height: auto !important; padding-top: 12px !important; padding-bottom: 12px !important; }
+  header > div { flex-direction: column !important; gap: 12px !important; }
+  /* left group (logo + nav) stacks and centers */
+  header > div > div:first-child { flex-direction: column !important; align-items: center !important; gap: 10px !important; }
+  /* right group (contact | donate) wraps & centers */
+  header > div > div:last-child { flex-wrap: wrap !important; justify-content: center !important; gap: 8px 14px !important; }
+  header nav { flex-wrap: wrap !important; justify-content: center !important; gap: 8px 16px !important; margin-left: 0 !important; }
+  header nav .relative.group { margin-left: 0 !important; }
+  header img { height: 56px !important; }   /* shrink the 100px logo */
+
+  /* ---------- index.html bespoke sections (hooked classes) ---------- */
+  /* Hero: drop the 1000px fixed height, center the offset text block. */
+  .hero { height: auto !important; padding-top: 32px !important; padding-bottom: 48px !important; }
+  .hero-content { width: 100% !important; max-width: 480px !important; margin-left: auto !important; margin-right: auto !important; padding-left: 20px !important; padding-right: 20px !important; }
+  .hero-content > h1 { padding-top: 4px !important; }
+
+  /* Mission photo card: replace 800px height with a fluid aspect ratio,
+     pin the white overlay card to the bottom across the full width. */
+  .photo-card { height: auto !important; aspect-ratio: 4 / 3; margin-top: 24px !important; }
+  .photo-card-overlay { left: 14px !important; right: 14px !important; bottom: 14px !important; top: auto !important; width: auto !important; padding: 16px !important; }
+
+  /* Impact map: remove the desktop overlap (-mb-[406px] + pt-[572px]) so
+     the following section just stacks normally. */
+  #impact-map { margin-bottom: 28px !important; }
+  .action-section { padding-top: 48px !important; padding-bottom: 56px !important; }
+
+  /* Impact-map header: stack the brand + the 3 stat columns. */
+  .map-head { height: auto !important; flex-direction: column !important; padding: 14px !important; gap: 12px !important; }
+  .map-stats { flex-wrap: wrap !important; justify-content: center !important; }
+  .map-stats > div { border-left: 0 !important; padding-left: 12px !important; padding-right: 12px !important; }
+}
+
+/* =====================================================================
+   <= 480px — small phones: tighter padding + smaller headings
+   ===================================================================== */
+@media (max-width: 480px) {
+  body > header,
+  body > section:not(.hero),
+  body > footer { padding-left: 14px !important; padding-right: 14px !important; }
+
+  .text-\[60px\] { font-size: 28px !important; }
+  .text-\[48px\] { font-size: 26px !important; }
+  .text-\[46px\] { font-size: 25px !important; }
+  .text-\[44px\] { font-size: 25px !important; }
+  .text-\[42px\] { font-size: 24px !important; }
+  .text-\[40px\] { font-size: 23px !important; }
+  .text-\[36px\] { font-size: 22px !important; }
+  .text-\[34px\] { font-size: 21px !important; }
+  .text-\[32px\] { font-size: 20px !important; }
+  .text-\[30px\] { font-size: 19px !important; }
+
+  header img { height: 48px !important; }
+  .hero-content > h1 { font-size: 23px !important; }
+}
