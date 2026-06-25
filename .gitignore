@@ -1,5 +1,9 @@
 # Dependencies (dev-only: Puppeteer for screenshot tests)
 node_modules/
+# Node manifests kept OUT of the deploy so Hostinger treats this as a
+# static site and does not attempt an npm build (which fails on Puppeteer).
+package.json
+package-lock.json
 
 # Screenshot test scripts & their output
 shot*.js
