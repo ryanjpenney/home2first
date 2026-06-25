@@ -1,19 +1,28 @@
 # ----------------------------------------------------------------------
-# Home2First — clean URLs (serve pages without the .html extension)
-# Works on Hostinger (LiteSpeed) / Apache via mod_rewrite.
+# Home2First — clean URLs (optional enhancement)
+#
+# Internal links use real .html files, so the site works even if these
+# rewrite rules are ignored. When mod_rewrite IS available (Hostinger
+# LiteSpeed / Apache), this also serves pages without the .html extension
+# and redirects /name.html -> /name so the address bar stays clean.
+#
+# Wrapped in <IfModule> so a host without mod_rewrite simply skips it
+# instead of throwing a 500 error.
 # ----------------------------------------------------------------------
-RewriteEngine On
+<IfModule mod_rewrite.c>
+  RewriteEngine On
 
-# Send /index and /index.html to the canonical site root "/"
-RewriteCond %{THE_REQUEST} \s/+index(\.html)?[\s?] [NC]
-RewriteRule ^ / [R=301,L]
+  # Send /index and /index.html to the canonical site root "/"
+  RewriteCond %{THE_REQUEST} \s/+index(\.html)?[\s?] [NC]
+  RewriteRule ^ / [R=301,L]
 
-# 301-redirect any direct /name.html request to the extensionless /name
-RewriteCond %{THE_REQUEST} \s/+([^.\s]+)\.html[\s?] [NC]
-RewriteRule ^ /%1 [R=301,L]
+  # 301-redirect direct /name.html requests to the extensionless /name
+  RewriteCond %{THE_REQUEST} \s/+([^.\s]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
 
-# Internally serve /name from name.html (only when name.html actually exists)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.+?)/?$ $1.html [L]
+  # Internally serve /name from name.html (only when name.html exists)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>
