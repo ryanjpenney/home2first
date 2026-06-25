@@ -114,6 +114,21 @@ img, svg, video, canvas, iframe { max-width: 100%; }   /* media never forces ove
   .map-head { height: auto !important; flex-direction: column !important; padding: 14px !important; gap: 12px !important; }
   .map-stats { flex-wrap: wrap !important; justify-content: center !important; }
   .map-stats > div { border-left: 0 !important; padding-left: 12px !important; padding-right: 12px !important; }
+
+  /* ---------- Founder / Home Team bio cards: stack on phones ---------- */
+  /* These cards are `flex gap-8 p-10` (a 160px headshot beside the bio).
+     On a phone the fixed photo squeezes the text into an unreadable
+     column, so stack the photo above the bio and trim the heavy padding.
+     (More specific than the blanket rules, so no !important war needed.) */
+  .rounded-xl.p-10.shadow-sm.flex.gap-8 { flex-direction: column !important; padding: 26px !important; gap: 22px !important; }
+  .rounded-xl.p-10.shadow-sm.flex.gap-8 > img { margin-left: auto !important; margin-right: auto !important; }
+
+  /* ---------- Photo galleries: tidy 2-up thumbnail grid on phones ------ */
+  /* The blanket 1-column rule above would stretch every gallery photo to a
+     full-width 260px-tall crop — a very long strip. Keep galleries as a
+     2-column grid with shorter, proportional thumbnails instead. */
+  .grid-cols-3.gap-5 { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+  .grid-cols-3.gap-5 > img { height: 150px !important; }
 }
 
 /* =====================================================================
@@ -137,4 +152,7 @@ img, svg, video, canvas, iframe { max-width: 100%; }   /* media never forces ove
 
   header img { height: 48px !important; }
   .hero-content > h1 { font-size: 23px !important; }
+
+  /* Smaller gallery thumbnails so the 2-up grid stays proportional. */
+  .grid-cols-3.gap-5 > img { height: 124px !important; }
 }
