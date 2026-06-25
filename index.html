@@ -252,6 +252,186 @@ tailwind.config = {
   </div>
 </section>
 
+<!-- ===================================================================
+     H2F QUOTES CAROUSEL — self-contained & reusable.
+     To place elsewhere or on another page: copy this ENTIRE block (the
+     <link>, <style>, <section>, and <script>) and paste it anywhere inside
+     <body>. Edit the `quotes` array near the top of the <script> to change
+     content. Everything is scoped with the h2f-quotes- prefix and the
+     script auto-initializes every .h2f-quotes section on the page.
+     ==================================================================== -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  .h2f-quotes{ background:#0A2342; color:#FFFFFF; padding:clamp(48px,7vw,80px) 12px; font-family:'Inter',system-ui,-apple-system,sans-serif; overflow:hidden; }
+  .h2f-quotes *{ box-sizing:border-box; }
+  .h2f-quotes__inner{ position:relative; max-width:1040px; margin:0 auto; padding:0 clamp(44px,8vw,64px); }
+  .h2f-quotes__viewport{ position:relative; overflow:hidden; min-height:180px; transition:height .5s cubic-bezier(.4,0,.2,1); }
+  .h2f-quotes__slide{ position:absolute; top:0; left:0; width:100%; margin:0; text-align:center; opacity:0; transform:translateX(100%);
+    transition:transform .55s cubic-bezier(.22,.61,.36,1), opacity .45s ease; will-change:transform,opacity; }
+  .h2f-quotes__mark{ display:block; font-family:'Oswald',sans-serif; font-weight:600; font-size:clamp(40px,6vw,58px); line-height:.95; color:#2D6A2F; margin-bottom:4px; }
+  .h2f-quotes__text{ font-family:'Oswald',sans-serif; font-weight:500; font-size:clamp(18px,2.4vw,27px); line-height:1.5; letter-spacing:.2px;
+    margin:0 auto; max-width:760px; color:#FFFFFF; overflow-wrap:break-word; }
+  .h2f-quotes__attr{ margin-top:22px; }
+  .h2f-quotes__name{ display:block; font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(15px,1.6vw,17px); color:#FFFFFF; letter-spacing:.3px; }
+  .h2f-quotes__role{ display:block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,1.3vw,13.5px); color:rgba(255,255,255,.62); margin-top:3px; }
+  .h2f-quotes__arrow{ position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; min-width:44px; min-height:44px;
+    display:flex; align-items:center; justify-content:center; padding:0; border:0; border-radius:9999px; background:rgba(255,255,255,.08);
+    color:#FFFFFF; cursor:pointer; transition:background .2s ease, color .2s ease; -webkit-tap-highlight-color:transparent; z-index:2; }
+  .h2f-quotes__arrow svg{ width:20px; height:20px; display:block; }
+  .h2f-quotes__arrow--prev{ left:0; }
+  .h2f-quotes__arrow--next{ right:0; }
+  .h2f-quotes__arrow:hover, .h2f-quotes__arrow:focus-visible{ background:#C8102E; color:#FFFFFF; }
+  .h2f-quotes__arrow:focus-visible{ outline:2px solid #FFFFFF; outline-offset:2px; }
+  .h2f-quotes__dots{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:30px; }
+  .h2f-quotes__dot{ position:relative; width:9px; height:9px; padding:0; border:0; border-radius:9999px; background:rgba(255,255,255,.30);
+    cursor:pointer; transition:background .2s ease, transform .2s ease; -webkit-tap-highlight-color:transparent; }
+  .h2f-quotes__dot::before{ content:''; position:absolute; inset:-9px; } /* larger touch target */
+  .h2f-quotes__dot:hover{ background:rgba(255,255,255,.60); }
+  .h2f-quotes__dot.is-active{ background:#C8102E; transform:scale(1.3); }
+  .h2f-quotes__dot:focus-visible{ outline:2px solid #FFFFFF; outline-offset:3px; }
+  @media (prefers-reduced-motion: reduce){
+    .h2f-quotes__slide{ transition:none; }
+    .h2f-quotes__viewport{ transition:none; }
+  }
+</style>
+<section class="h2f-quotes" aria-roledescription="carousel" aria-label="What families and partners say about Home2First">
+  <div class="h2f-quotes__inner">
+    <button type="button" class="h2f-quotes__arrow h2f-quotes__arrow--prev" aria-label="Previous quote">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="h2f-quotes__viewport"></div>
+    <button type="button" class="h2f-quotes__arrow h2f-quotes__arrow--next" aria-label="Next quote">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  <div class="h2f-quotes__dots" aria-label="Choose a quote"></div>
+</section>
+<script>
+(function(){
+  // ---- Edit your quotes here ----
+  var quotes = [
+    { text: "Playing with H2F has meant so much to both my son and our family. It's given him confidence, discipline, teamwork and a sense of community while allowing him to simply enjoy being a kid and doing something he loves. Programs like this create opportunities for children and families who may not otherwise have access to competitive sports, mentorship, and positive role models. The support from the Diamondbacks and everyone involved helps create opportunities and memories these kids will carry with them forever!", name: "Kacey Hoagey", role: "Parent" },
+    { text: "Paul & H2F have brought back baseball unity and family time to the community. These important pillars have been missing for a long time.", name: "Frank Zambrano", role: "Grandparent" },
+    { text: "Before Home2First, Eli was afraid to fail. Mistakes would discourage him quickly, and baseball felt intimidating coming from soccer. Over the last two years, Coach Paul and Home2First completely changed his mindset. Eli has learned that failure is part of growth, and that hard work, repetition, and resilience lead to improvement. Today, he's more confident, more resilient, and growing not just as a player, but as a person. As a parent, it's been incredible to watch. Coach Paul truly cares about the kids and the impact he has on them beyond baseball.", name: "Julio Rivera", role: "Parent" },
+    { text: "Baseball is an escape from life. With my son with anxiety it helps him let everything go on the field. Baseball is a community and a family we don't have. Coach Paul has welcomed us in as family, and the learning he teaches my son — besides the game of baseball, the education of baseball — is nothing like we have ever had. Home2First and Coach Paul have started a great program for underprivileged kids, and we appreciate everything that he and his foundation have done for my boys and all the kids in the league.", name: "Sabrina Zambrano", role: "Parent" },
+    { text: "Just wanted to let you know how much I appreciate you and H2F. You have not only taught my son how to be a better ball player, but more importantly to respect the game and be a better student and all around person. We just love watching our boys play, and having you as a coach and friend has been one of the most rewarding experiences since moving to AZ from CA.", name: "Matt Flores", role: "Parent" },
+    { text: "The Home2First program has been the main component to revitalizing not only our Promise Field, but also a segment of our community. Hearing the sounds of joy that youth baseball and Home2First have brought back to East Phoenix has been amazing.", name: "Dr. George Barnes", role: "Balsz School District Superintendent" },
+    { text: "Wow! Everything that Paul and H2F are able to do for these kids is simply amazing!!! I wish I was a kid again!!! Thanks for everything — your tremendous positive energy and passion for baseball have become contagious with many of the kids that Paul coaches and mentors.", name: "Darren Hill", role: "Balsz School District 40+ Year Teacher & Coach" },
+    { text: "My son Elliott joined the league this year, and at seven years old it was his very first experience truly learning the game of baseball. From the very beginning he was hooked. Over the season, not only did his skills improve tremendously, but his understanding and love of the game grew exponentially. One lesson Coach Paul consistently reinforced was the importance of learning to 'flush it' after making a mistake. I often repeat it to my own students, because it translates so perfectly to the classroom and to life. Developing resilience at such a young age is a gift that will serve them far beyond the baseball field.", name: "Emily Fortunate", role: "Griffith Elementary Principal & Parent" }
+  ];
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function initCarousel(root){
+    var viewport = root.querySelector('.h2f-quotes__viewport');
+    var dotsWrap = root.querySelector('.h2f-quotes__dots');
+    var prevBtn  = root.querySelector('.h2f-quotes__arrow--prev');
+    var nextBtn  = root.querySelector('.h2f-quotes__arrow--next');
+    if(!viewport || !quotes.length) return;
+
+    var slides = quotes.map(function(q){
+      var fig  = document.createElement('figure'); fig.className = 'h2f-quotes__slide';
+      var mark = document.createElement('span');   mark.className = 'h2f-quotes__mark'; mark.setAttribute('aria-hidden','true'); mark.textContent = '“';
+      var bq   = document.createElement('blockquote'); bq.className = 'h2f-quotes__text'; bq.textContent = q.text;
+      var cap  = document.createElement('figcaption'); cap.className = 'h2f-quotes__attr';
+      var nm   = document.createElement('span'); nm.className = 'h2f-quotes__name'; nm.textContent = q.name;
+      var rl   = document.createElement('span'); rl.className = 'h2f-quotes__role'; rl.textContent = q.role;
+      cap.appendChild(nm); cap.appendChild(rl);
+      fig.appendChild(mark); fig.appendChild(bq); fig.appendChild(cap);
+      viewport.appendChild(fig);
+      return fig;
+    });
+
+    var dots = quotes.map(function(q, i){
+      var d = document.createElement('button'); d.type = 'button'; d.className = 'h2f-quotes__dot';
+      d.setAttribute('aria-label', 'Show quote ' + (i + 1) + ' of ' + quotes.length);
+      dotsWrap.appendChild(d);
+      return d;
+    });
+
+    var current = 0, timer = null, paused = false;
+    var N = slides.length;
+
+    function delayFor(i){ return Math.min(12000, 6000 + 40 * quotes[i].text.length); }
+    function setHeight(){ viewport.style.height = slides[current].offsetHeight + 'px'; }
+    function syncDots(){
+      dots.forEach(function(d, i){
+        var on = i === current;
+        d.classList.toggle('is-active', on);
+        if(on){ d.setAttribute('aria-current', 'true'); } else { d.removeAttribute('aria-current'); }
+      });
+    }
+
+    // initial state
+    slides.forEach(function(s){ s.style.transform = 'translateX(100%)'; s.style.opacity = '0'; });
+    slides[0].style.transform = 'translateX(0)'; slides[0].style.opacity = '1'; slides[0].classList.add('is-active');
+    syncDots(); setHeight();
+
+    function goTo(target, dir){
+      target = ((target % N) + N) % N;
+      if(target === current) return;
+      if(!dir){ dir = target > current ? 'next' : 'prev'; }
+      var cur = slides[current], tgt = slides[target];
+      var fromX = dir === 'next' ? '100%' : '-100%';
+      var outX  = dir === 'next' ? '-100%' : '100%';
+
+      if(reduce){
+        cur.style.transition = 'none'; tgt.style.transition = 'none';
+        cur.style.opacity = '0'; cur.style.transform = 'translateX(' + outX + ')';
+        tgt.style.opacity = '1'; tgt.style.transform = 'translateX(0)';
+        cur.classList.remove('is-active'); tgt.classList.add('is-active');
+        current = target; setHeight(); syncDots(); return;
+      }
+
+      tgt.style.transition = 'none';
+      tgt.style.transform = 'translateX(' + fromX + ')';
+      tgt.style.opacity = '1';
+      viewport.style.height = tgt.offsetHeight + 'px';
+      void tgt.offsetWidth; // reflow so the next change animates
+      tgt.style.transition = '';
+      cur.style.transform = 'translateX(' + outX + ')';
+      cur.style.opacity = '0';
+      tgt.style.transform = 'translateX(0)';
+      tgt.style.opacity = '1';
+      cur.classList.remove('is-active'); tgt.classList.add('is-active');
+      current = target; syncDots();
+    }
+
+    function next(){ goTo(current + 1, 'next'); }
+    function prev(){ goTo(current - 1, 'prev'); }
+    function auto(){ clearTimeout(timer); if(reduce || paused) return; timer = setTimeout(function(){ next(); auto(); }, delayFor(current)); }
+    function resetTimer(){ clearTimeout(timer); auto(); }
+
+    if(nextBtn){ nextBtn.addEventListener('click', function(){ next(); resetTimer(); }); }
+    if(prevBtn){ prevBtn.addEventListener('click', function(){ prev(); resetTimer(); }); }
+    dots.forEach(function(d, i){ d.addEventListener('click', function(){ goTo(i); resetTimer(); }); });
+
+    root.addEventListener('mouseenter', function(){ paused = true; clearTimeout(timer); });
+    root.addEventListener('mouseleave', function(){ paused = false; auto(); });
+    root.addEventListener('focusin',  function(){ paused = true; clearTimeout(timer); });
+    root.addEventListener('focusout', function(){ paused = false; auto(); });
+
+    var sx = null, sy = null;
+    viewport.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    viewport.addEventListener('touchend', function(e){
+      if(sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){ if(dx < 0){ next(); } else { prev(); } resetTimer(); }
+      sx = sy = null;
+    }, { passive: true });
+
+    var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(setHeight, 150); });
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(setHeight); }
+    window.addEventListener('load', setHeight);
+
+    auto();
+  }
+
+  function initAll(){ Array.prototype.forEach.call(document.querySelectorAll('.h2f-quotes'), initCarousel); }
+  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', initAll); } else { initAll(); }
+})();
+</script>
+
 <!-- ============ FOOTER ============ -->
 <footer class="bg-white pt-[64px] pb-[58px]">
   <div class="w-[980px] mx-auto">
